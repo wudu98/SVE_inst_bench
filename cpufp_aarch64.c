@@ -6,7 +6,7 @@
 
 #include "cpufp_kernel_aarch64.h"
 
-#define FMLA_FP32_COMP (0x10000000L)
+#define FMLA_FP32_COMP (0x40000000L)
 static long long CPUFREQ = 3e9;
 
 typedef void (*task_func_t)(int);
@@ -66,9 +66,9 @@ int main(int argc, char *argv[])
 {
 	int num_threads = 1;
 
-	CPUFREQ = get_freq();
-	double cpu_freq_d = CPUFREQ * 1e-9;
-	double cpu_freq_m = measuring_freq(cpu_neon_fp64_add_lat) * 1e-9;
+	double cpu_freq_d = get_freq() * 1e-9;
+	CPUFREQ = measuring_freq(cpu_neon_fp64_add_lat);
+	double cpu_freq_m = CPUFREQ * 1e-9;
 	printf("Thread(s): %d max cpufreq(GHz) : %.2lf measure cpufreq(GHz) : %.2lf\n", num_threads, cpu_freq_d, cpu_freq_m);
 	cpufp_aarch64_fmla(num_threads);
 	return 0;
