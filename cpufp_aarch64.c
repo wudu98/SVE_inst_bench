@@ -6,7 +6,7 @@
 
 #include "cpufp_kernel_aarch64.h"
 
-#define FMLA_FP32_COMP (0x40000000L)
+#define FMLA_FP32_COMP (0x10000000L)
 static long long CPUFREQ = 3e9;
 
 typedef void (*task_func_t)(int);
@@ -34,7 +34,7 @@ static long long measuring_freq(task_func_t func) {
 	func(FMLA_FP32_COMP);
 	clock_gettime(CLOCK_MONOTONIC_RAW, &end);
 	time_used = get_time(&start, &end);
-	cpu_freq_m = (20 * FMLA_FP32_COMP) / time_used;
+	cpu_freq_m = (32 * FMLA_FP32_COMP) / time_used;
 	return (long long)cpu_freq_m;
 }
 
@@ -52,24 +52,26 @@ double task_wrapper(task_func_t func, const long int loop_num) {
 
 void cpufp_aarch64_fmla(int num_threads)
 {
-	double perf, cpi, time_used, latency;
+	double perf, cpi, throughput, time_used, latency;
 
 	time_used = task_wrapper(cpu_fp32_cpi_kernel_aarch64, FMLA_FP32_COMP);
-	perf = 8 * 32 * FMLA_FP32_COMP * num_threads / time_used * 1e-9;
+	perf = 1.0 * 8 * 32 * FMLA_FP32_COMP * num_threads / time_used * 1e-9;
 	cpi = CPUFREQ * time_used / (32 * FMLA_FP32_COMP);
+	throughput = 1.0 / cpi;
 	time_used = task_wrapper(cpu_fp32_lat_kernel_aarch64, FMLA_FP32_COMP);
 	latency = CPUFREQ * time_used / (32 * FMLA_FP32_COMP);
-	printf("fmla fp32 perf: %.4lf gflops. cpi : %.4lf. latency : %.4lf.\n", perf, cpi, latency);
+	printf("fmla fp32 perf: %.4lf gflops. latency : %.4lf. cpi : %.4lf. throughput : %.4lf.\n", perf, latency, cpi, throughput);
 }
 
 int main(int argc, char *argv[])
 {
 	int num_threads = 1;
 
-	double cpu_freq_d = get_freq() * 1e-9;
-	CPUFREQ = measuring_freq(cpu_neon_fp64_add_lat);
-	double cpu_freq_m = CPUFREQ * 1e-9;
-	printf("Thread(s): %d max cpufreq(GHz) : %.2lf measure cpufreq(GHz) : %.2lf\n", num_threads, cpu_freq_d, cpu_freq_m);
+	CPUFREQ = measuring_freq(cpu_neon_int_add_lat);
+	double cpu_freq_measure = CPUFREQ * 1e-9;
+	double cpu_freq_max = get_freq() * 1e-9;
+	
+	printf("Thread(s): %d | measure cpufreq(GHz) : %.2lf | max cpufreq(GHz) : %.2lf\n", num_threads, cpu_freq_measure, cpu_freq_max);
 	cpufp_aarch64_fmla(num_threads);
 	return 0;
 }

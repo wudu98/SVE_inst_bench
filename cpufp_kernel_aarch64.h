@@ -1,8 +1,9 @@
 #ifndef _CPUFP_AARCH64_H
 #define _CPUFP_AARCH64_H
 
+void cpu_neon_int_add_lat(int);
 void cpu_fp32_cpi_kernel_aarch64(int);
 void cpu_fp32_lat_kernel_aarch64(int);
-void cpu_neon_fp64_add_lat(int);
+
 #endif
 
