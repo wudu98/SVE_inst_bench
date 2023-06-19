@@ -29,9 +29,10 @@ static long long get_freq(void) {
 static long long measuring_freq(void) {
 	struct timespec start, end;
 	double time_used, cpu_freq_m;
+	task_func_t func = cpu_neon_fp64_add_lat;
 
 	clock_gettime(CLOCK_MONOTONIC_RAW, &start);
-	cpu_neon_fp64_add_lat(FMLA_FP32_COMP);
+	func(FMLA_FP32_COMP);
 	clock_gettime(CLOCK_MONOTONIC_RAW, &end);
 	time_used = get_time(&start, &end);
 	cpu_freq_m = (10 * FMLA_FP32_COMP) / time_used;
