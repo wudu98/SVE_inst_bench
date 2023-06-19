@@ -34,7 +34,7 @@ static long long measuring_freq(void) {
 	return (long long)cpu_freq_m;
 }
 
-double task_wrapper(task_func_t func, const long int loop_num) {
+static double task_wrapper(task_func_t func, const long int loop_num) {
 	struct timespec start, end;
 	// warm up(pre heat)
 	int warmup_loop = 1000;
