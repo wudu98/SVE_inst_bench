@@ -44,10 +44,10 @@ void cpufp_aarch64_fmla(int num_threads)
 	double perf, cpi, time_used, latency;
 
 	time_used = task_wrapper(cpu_fp32_cpi_kernel_aarch64, FMLA_FP32_COMP);
-	perf = 80 * FMLA_FP32_COMP * num_threads / time_used * 1e-9;
-	cpi = CPUFREQ * time_used / (10 * FMLA_FP32_COMP);
+	perf = 8 * 20 * FMLA_FP32_COMP * num_threads / time_used * 1e-9;
+	cpi = CPUFREQ * time_used / (20 * FMLA_FP32_COMP);
 	time_used = task_wrapper(cpu_fp32_lat_kernel_aarch64, FMLA_FP32_COMP);
-	latency = CPUFREQ * time_used / (10 * FMLA_FP32_COMP);
+	latency = CPUFREQ * time_used / (20 * FMLA_FP32_COMP);
 	printf("fmla fp32 perf: %.4lf gflops. cpi : %.4lf. latency : %.4lf.\n", perf, cpi, latency);
 }
 
