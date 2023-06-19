@@ -6,8 +6,8 @@
 
 #include "cpufp_kernel_aarch64.h"
 
-#define FMLA_FP32_COMP (0x40000000L)
-long long CPUFREQ = 3e9;
+#define FMLA_FP32_COMP (0x10000000L)
+static long long CPUFREQ = 3e9;
 
 typedef void (*task_func_t)(int);
 
@@ -40,11 +40,10 @@ double task_wrapper(task_func_t func, const long int loop_num) {
 
 void cpufp_aarch64_fmla(int num_threads)
 {
-	int i;
 	double perf, cpi, time_used, latency;
 
 	time_used = task_wrapper(cpu_fp32_cpi_kernel_aarch64, FMLA_FP32_COMP);
-	perf = 1.0 * 8 * 32 * FMLA_FP32_COMP * num_threads / time_used * 1e-9;
+	perf = 8 * 32 * FMLA_FP32_COMP * num_threads / time_used * 1e-9;
 	cpi = CPUFREQ * time_used / (32 * FMLA_FP32_COMP);
 	time_used = task_wrapper(cpu_fp32_lat_kernel_aarch64, FMLA_FP32_COMP);
 	latency = CPUFREQ * time_used / (32 * FMLA_FP32_COMP);
