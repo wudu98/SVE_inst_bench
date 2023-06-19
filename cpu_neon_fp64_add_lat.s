@@ -13,6 +13,16 @@ cpu_neon_fp64_add_lat:
     add     x1, x1, x1
     add     x1, x1, x1
     add     x1, x1, x1
+    add     x1, x1, x1
+    add     x1, x1, x1
+    add     x1, x1, x1
+    add     x1, x1, x1
+    add     x1, x1, x1
+    add     x1, x1, x1
+    add     x1, x1, x1
+    add     x1, x1, x1
+    add     x1, x1, x1
+    add     x1, x1, x1
     subs    x0, x0, #1
     bne     .L1
     ret
