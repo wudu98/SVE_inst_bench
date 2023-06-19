@@ -3,5 +3,6 @@
 
 void cpu_fp32_cpi_kernel_aarch64(int);
 void cpu_fp32_lat_kernel_aarch64(int);
+void cpu_neon_fp64_add_lat(int);
 #endif
 

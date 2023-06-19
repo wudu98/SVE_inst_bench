@@ -26,6 +26,14 @@ static long long get_freq(void) {
 	return ret;
 }
 
+static long long measuring_freq(void) {
+	double time_used, cpu_freq_m;
+
+	time_used = task_wrapper(cpu_neon_fp64_add_lat, FMLA_FP32_COMP);
+	cpu_freq_m = (10 * FMLA_FP32_COMP) / time_used;
+	return (long long)cpu_freq_m;
+}
+
 double task_wrapper(task_func_t func, const long int loop_num) {
 	struct timespec start, end;
 	// warm up(pre heat)
@@ -56,7 +64,8 @@ int main(int argc, char *argv[])
 
 	CPUFREQ = get_freq();
 	double cpu_freq_d = CPUFREQ * 1e-9;
-	printf("Thread(s): %d cpufreq(GHz) : %.2lf\n", num_threads, cpu_freq_d);
+	double cpu_freq_m = measuring_freq();
+	printf("Thread(s): %d max cpufreq(GHz) : %.2lf measure cpufreq(GHz) : %.2lf\n", num_threads, cpu_freq_d, cpu_freq_m);
 	cpufp_aarch64_fmla(num_threads);
 	return 0;
 }
