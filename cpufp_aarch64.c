@@ -6,8 +6,8 @@
 
 #include "cpufp_kernel_aarch64.h"
 
-#define FMLA_FP32_COMP (0x10000000L)
-static long long CPUFREQ = 3e9;
+#define FMLA_FP32_COMP (0x40000000L)
+static double CPUFREQ;
 
 typedef void (*task_func_t)(int);
 
@@ -16,12 +16,12 @@ static double get_time(struct timespec *start, struct timespec *end)
 	return end->tv_sec - start->tv_sec + (end->tv_nsec - start->tv_nsec) * 1e-9;
 }
 
-static long long get_freq(void) {
+static double get_freq(void) {
 	FILE *fp = NULL;
 	char buff[255];
 	fp = fopen("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq", "r");
 	fgets(buff, 255, (FILE*)fp);
-	unsigned long long ret = 1e3 * atoll(buff);
+	double ret = 1e3 * atoll(buff);
 	fclose(fp);
 	return ret;
 }
