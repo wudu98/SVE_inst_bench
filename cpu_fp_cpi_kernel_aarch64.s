@@ -21,6 +21,18 @@ cpu_fp32_cpi_kernel_aarch64:
     eor    v17.16b, v17.16b, v17.16b
     eor    v18.16b, v18.16b, v18.16b
     eor    v19.16b, v19.16b, v19.16b
+    eor    v20.16b, v20.16b, v20.16b
+    eor    v21.16b, v21.16b, v21.16b
+    eor    v22.16b, v22.16b, v22.16b
+    eor    v23.16b, v23.16b, v23.16b
+    eor    v24.16b, v24.16b, v24.16b
+    eor    v25.16b, v25.16b, v25.16b
+    eor    v26.16b, v26.16b, v26.16b
+    eor    v27.16b, v27.16b, v27.16b
+    eor    v28.16b, v28.16b, v28.16b
+    eor    v29.16b, v29.16b, v29.16b
+    eor    v30.16b, v30.16b, v30.16b
+    eor    v31.16b, v31.16b, v31.16b
 .cpufp.aarch64.fp32.L1:
     fmla    v0.4s, v0.4s, v0.4s
     fmla    v1.4s, v1.4s, v1.4s
@@ -42,6 +54,18 @@ cpu_fp32_cpi_kernel_aarch64:
     fmla    v17.4s, v17.4s, v17.4s
     fmla    v18.4s, v18.4s, v18.4s
     fmla    v19.4s, v19.4s, v19.4s
+    fmla    v20.4s, v20.4s, v20.4s
+    fmla    v21.4s, v21.4s, v21.4s
+    fmla    v22.4s, v22.4s, v22.4s
+    fmla    v23.4s, v23.4s, v23.4s
+    fmla    v24.4s, v24.4s, v24.4s
+    fmla    v25.4s, v25.4s, v25.4s
+    fmla    v26.4s, v26.4s, v26.4s
+    fmla    v27.4s, v27.4s, v27.4s
+    fmla    v28.4s, v28.4s, v28.4s
+    fmla    v29.4s, v29.4s, v29.4s
+    fmla    v30.4s, v30.4s, v30.4s
+    fmla    v31.4s, v31.4s, v31.4s
     subs    x0, x0, #1
     bne     .cpufp.aarch64.fp32.L1
     ret
